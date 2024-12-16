@@ -8,7 +8,7 @@ import PokeCard from './components/PokeCard.jsx'
 // buat github organization [done]
 // buat repository [done]
 // init project vite [done]
-// setup tailwindcss 
+// setup tailwindcss [done]
 // consume pokeapi [done]
 // display ke layout card [done]
 
@@ -34,11 +34,13 @@ function App() {
 
   return (
     <>
-      {
-        pokeList.results?.map((pokemon, index) => {
-          return <PokeCard key={index} data={pokemon} />
-        })
-      }
+      <div className='flex gap-2 flex-wrap justify-between'>
+        {
+          pokeList.results?.map((pokemon, index) => {
+            return <PokeCard key={index} data={pokemon} />
+          })
+        }
+      </div>
     </>
   )
 }
