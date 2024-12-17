@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import axios from 'axios'
 import PokeCard from './components/PokeCard.jsx'
@@ -34,7 +32,7 @@ function App() {
 
   return (
     <>
-      <div className='flex gap-2 flex-wrap justify-between'>
+      <div className='grid grid-cols-1 sm:mx-12 md:mx-0 md:grid-cols-2 lg:grid-cols-3 gap-2'>
         {
           pokeList.results?.map((pokemon, index) => {
             return <PokeCard key={index} data={pokemon} />
