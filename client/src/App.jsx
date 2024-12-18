@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
-import PokeCard from './components/PokeCard.jsx'
+import PokeCard, { LoadingPokeCard } from './components/PokeCard.jsx'
 
 // buat github organization [done]
 // buat repository [done]
@@ -13,32 +13,61 @@ import PokeCard from './components/PokeCard.jsx'
 function App() {
   const baseUrl = 'https://pokeapi.co/api/v2/';
   const [pokeList, setPokeList] = useState([]);
+  const [currentUrl, setCurrentUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=15&offset=0");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchPokeList = async () => {
-    const offset = 0;
+  const fetchPage = async () => {
     try {
-      const { data } = await axios.get(baseUrl + 'pokemon?limit=24&offset=' + offset);
+      setIsLoading(true);
+      const { data } = await axios.get(currentUrl);
       setPokeList(data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   useEffect(() => {
-    fetchPokeList();
+    fetchPage();
   }, [])
 
-  useEffect(() => { })
+  useEffect(() => {
+    fetchPage();
+  }, [currentUrl])
+
+  // const fetchPokeList = async () => {
+  //   const offset = 0;
+  //   try {
+  //     const { data } = await axios.get(baseUrl + 'pokemon?limit=24&offset=' + offset);
+  //     setPokeList(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   fetchPokeList();
+  // }, [])
+
+  const loadingCards = []
+  for (let i = 0; i < 3; i++) {
+    loadingCards.push(<LoadingPokeCard key={i} />);
+  }
 
   return (
     <>
       <div className='grid grid-cols-1 sm:mx-12 md:mx-0 md:grid-cols-2 lg:grid-cols-3 gap-2'>
         {
-          pokeList.results?.map((pokemon, index) => {
-            return <PokeCard key={index} data={pokemon} />
-          })
+          isLoading ? loadingCards :
+            pokeList.results?.map((pokemon, index) => {
+              return <PokeCard key={index} data={pokemon} />
+            })
+
         }
       </div>
+      <span className='hover:cursor-pointer px-4 border rounded-md bg-blue-500 text-white hover:bg-blue-500/80 active:bg-blue-500' onClick={() => { pokeList.previous ? setCurrentUrl(pokeList.previous) : null }}>Prev</span>
+      <span className='hover:cursor-pointer px-4 border rounded-md bg-blue-500 text-white hover:bg-blue-500/80 active:bg-blue-500' onClick={() => { pokeList.next ? setCurrentUrl(pokeList.next) : null }}>Next</span>
     </>
   )
 }
