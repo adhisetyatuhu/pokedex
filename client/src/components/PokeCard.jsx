@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 function PokeCard(props) {
     const [pokeData, setPokeData] = useState(null);
     const [pokeImg, setPokeImg] = useState(null);
+    const navigate = useNavigate();
 
     const fetchData = async () => {
         const { data } = await axios.get(props.data?.url);
@@ -17,7 +19,7 @@ function PokeCard(props) {
 
     return (
         <>
-            <div className="p-4 border rounded-md bg-gray-300 flex justify-between">
+            <div onClick={() => navigate('/pokemon/' + pokeData.id)} className="p-4 border rounded-md bg-gray-300 flex justify-between hover:cursor-pointer">
                 <figure className="bg-gray-300">
                     <img className=" h-28" src={pokeImg} alt={props.data?.name} />
                 </figure>
