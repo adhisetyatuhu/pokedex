@@ -47,11 +47,15 @@ class StatsChart extends Component {
 
 function Hero(props) {
     const [sound, setSound] = useState(null);
-    const [isHowling, setIsHowling] = useState(true);
+    const [isHowling, setIsHowling] = useState(false);
 
     useEffect(() => {
         setSound(props.data?.cries.latest);
     }, []);
+
+    useEffect(() => {
+        setSound(props.data?.cries.latest);
+    }, [props.data?.cries.latest])
 
     return (
         <>
@@ -76,9 +80,11 @@ function Hero(props) {
                         props.isLoading ?
                             <LoadingIcon />
                             :
-                            <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-80 hover:animate-pulse" src={props.data?.sprites.other["official-artwork"].front_default} />
+                            <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
                     }
-                    <ReactHowler src={sound ? sound : "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/1.ogg"} playing={isHowling} volume={0.05} />
+                    {
+                        isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.05} />
+                    }
                 </figure>
 
                 {/* base stats */}
