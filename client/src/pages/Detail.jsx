@@ -37,7 +37,7 @@ function Hero(props) {
                             :
                             <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-80 hover:animate-pulse" src={props.data?.sprites.other["official-artwork"].front_default} />
                     }
-                    <ReactHowler src={sound ? sound : "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/1.ogg"} playing={isHowling} />
+                    <ReactHowler src={sound ? sound : "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/1.ogg"} playing={isHowling} volume={0.05} />
                 </figure>
 
                 {/* base stats */}
