@@ -43,7 +43,6 @@ function PokeCard(props) {
     }, [])
 
     useEffect(() => {
-
         fetchData();
     }, [props])
 
@@ -69,5 +68,5 @@ function PokeCard(props) {
     )
 }
 
-export { LoadingPokeCard };
+export { LoadingPokeCard, LoadingIcon };
 export default PokeCard;
