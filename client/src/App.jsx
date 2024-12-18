@@ -3,13 +3,6 @@ import './App.css'
 import axios from 'axios'
 import PokeCard, { LoadingPokeCard } from './components/PokeCard.jsx'
 
-// buat github organization [done]
-// buat repository [done]
-// init project vite [done]
-// setup tailwindcss [done]
-// consume pokeapi [done]
-// display ke layout card [done]
-
 function App() {
   const baseUrl = 'https://pokeapi.co/api/v2/';
   const [pokeList, setPokeList] = useState([]);
@@ -36,22 +29,8 @@ function App() {
     fetchPage();
   }, [currentUrl])
 
-  // const fetchPokeList = async () => {
-  //   const offset = 0;
-  //   try {
-  //     const { data } = await axios.get(baseUrl + 'pokemon?limit=24&offset=' + offset);
-  //     setPokeList(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   fetchPokeList();
-  // }, [])
-
   const loadingCards = []
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 15; i++) {
     loadingCards.push(<LoadingPokeCard key={i} />);
   }
 
