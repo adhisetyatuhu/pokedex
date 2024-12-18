@@ -5,6 +5,7 @@ import './index.css'
 import App from './App.jsx'
 import Detail from './pages/Detail.jsx'
 import MainLayout from './layouts/MainLayout.jsx'
+import Search from './pages/Search.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')).render(
         <Route element={<MainLayout />}>
           <Route index element={<App />} />
           <Route path='/pokemon/:id' element={<Detail />} />
+          <Route path='/search/:keyword' element={<Search />} />
         </Route>
       </Routes>
     </BrowserRouter>
