@@ -3,7 +3,6 @@ import { useEffect, useState, Component } from "react";
 import { useParams } from "react-router";
 import ReactHowler from "react-howler";
 import { LoadingIcon } from "../components/PokeCard";
-import Chart from 'react-apexcharts';
 import ReactApexChart from "react-apexcharts";
 
 const StatChart = (props) => {
@@ -26,7 +25,8 @@ const StatChart = (props) => {
                 text: ''
             },
             yaxis: {
-                stepSize: 30,
+                // stepSize: 30,
+                show: false,
                 max: 150
             },
             xaxis: {

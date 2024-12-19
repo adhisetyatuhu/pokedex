@@ -34,7 +34,6 @@ function Search() {
 
     return (
         <>
-            <h1>Search "{keyword}"</h1>
             <div className='grid grid-cols-1 sm:mx-12 md:mx-0 md:grid-cols-2 lg:grid-cols-3 gap-2'>
                 {
                     result?.map((poke, index) => {
