@@ -17,11 +17,11 @@ const StatChart = (props) => {
         }],
         options: {
             chart: {
-                height: 350,
+                height: 300,
                 type: 'radar',
                 toolbar: {
                     show: false
-                }
+                },
             },
             title: {
                 text: ''
@@ -32,8 +32,15 @@ const StatChart = (props) => {
                 max: 150
             },
             xaxis: {
-                categories: []
-            }
+                categories: [],
+                labels: {
+                    style: {
+                        colors: ["#000", "#000", "#000", "#000", "#000", "#000"]
+                    }
+                }
+            },
+
+
         },
     });
 
@@ -63,8 +70,8 @@ const StatChart = (props) => {
 
     return (
         <div>
-            <div id="chart">
-                <ReactApexChart options={state.options} series={state.series} type="radar" height={350} />
+            <div id="chart" className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/15 from-0% to-black/0 to-70%">
+                <ReactApexChart options={state.options} series={state.series} type="radar" height={350} width={380} />
             </div>
             <div id="html-dist"></div>
         </div>
@@ -118,8 +125,8 @@ function Hero(props) {
                         {/* end types */}
 
                         <div className="flex justify-between mt-2">
-                            <span>Weight: {props.data?.weight}</span>
-                            <span>Height: {props.data?.height}</span>
+                            <span>Weight: {props.data?.weight / 10} kg</span>
+                            <span>Height: {props.data?.height / 10} m</span>
                         </div>
                     </div>
 
