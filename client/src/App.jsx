@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
 import PokeCard, { LoadingPokeCard } from './components/PokeCard.jsx'
+import Pagination from './components/Pagination.jsx'
 
 function App() {
   const baseUrl = 'https://pokeapi.co/api/v2/';
@@ -45,8 +46,7 @@ function App() {
 
         }
       </div>
-      <span className='hover:cursor-pointer px-4 border rounded-md bg-blue-500 text-white hover:bg-blue-500/80 active:bg-blue-500' onClick={() => { pokeList.previous ? setCurrentUrl(pokeList.previous) : null }}>Prev</span>
-      <span className='hover:cursor-pointer px-4 border rounded-md bg-blue-500 text-white hover:bg-blue-500/80 active:bg-blue-500' onClick={() => { pokeList.next ? setCurrentUrl(pokeList.next) : null }}>Next</span>
+      <Pagination pokeList={pokeList} setCurrentUrl={setCurrentUrl} />
     </>
   )
 }

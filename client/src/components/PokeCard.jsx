@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { elements } from "../utils/colors";
 
 function LoadingIcon() {
     return (
@@ -38,6 +39,8 @@ function PokeCard(props) {
         }
     }
 
+    const getColor = (type) => elements[type] || elements["undefined"];
+
     useEffect(() => {
         fetchData();
     }, [])
@@ -48,8 +51,8 @@ function PokeCard(props) {
 
     return (
         <>
-            <div onClick={() => navigate('/pokemon/' + pokeData.id)} className="px-4 h-36 border rounded-md bg-gray-300 flex justify-between items-center hover:cursor-pointer">
-                <figure className="bg-gray-300">
+            <div onClick={() => navigate('/pokemon/' + pokeData?.id)} className={`px-4 h-36 border rounded-md flex justify-between items-center hover:cursor-pointer ${pokeData?.types ? getColor(pokeData.types[0].type.name) : 'bg-gray-200/70'}`}>
+                <figure >
                     {
                         isLoading ?
                             <div className="flex justify-center items-center h-28 w-24"><LoadingIcon /></div>
