@@ -4,45 +4,69 @@ import { useParams } from "react-router";
 import ReactHowler from "react-howler";
 import { LoadingIcon } from "../components/PokeCard";
 import Chart from 'react-apexcharts';
+import ReactApexChart from "react-apexcharts";
 
-class StatsChart extends Component {
-    constructor(props) {
-        super(props);
+const StatChart = (props) => {
+    const [stats, setStats] = useState(null);
 
-        this.state = {
-            options: {
-                chart: {
-                    id: "basic-bar"
-                },
-                xaxis: {
-                    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+    const [state, setState] = useState({
+        series: [{
+            name: 'Base Stats',
+            data: [],
+        }],
+        options: {
+            chart: {
+                height: 350,
+                type: 'radar',
+                toolbar: {
+                    show: false
                 }
             },
-            series: [
-                {
-                    name: "series-1",
-                    data: [30, 40, 45, 50, 49, 60, 70, 91]
-                }
-            ]
-        };
+            title: {
+                text: ''
+            },
+            yaxis: {
+                stepSize: 30,
+                max: 150
+            },
+            xaxis: {
+                categories: []
+            }
+        },
+    });
+
+    const getStats = () => {
+        if (stats?.length > 0) {
+            const statNames = [...stats].map(stat => {
+                return stat.stat.name
+            });
+            const statValues = [...stats].map(stat => {
+                return stat.base_stat
+            });
+            setState({ ...state, series: [{ ...state.series, data: statValues }], options: { ...state.options, xaxis: { categories: statNames } } });
+        }
     }
 
-    render() {
-        return (
-            <div className="app">
-                <div className="row">
-                    <div className="mixed-chart">
-                        <Chart
-                            options={this.state.options}
-                            series={this.state.series}
-                            type="radar"
-                            width="500"
-                        />
-                    </div>
-                </div>
+    useEffect(() => {
+        setStats(props.stats)
+    }, []);
+
+    useEffect(() => {
+        setStats(props.stats)
+    }, [props.stats]);
+
+    useEffect(() => {
+        getStats();
+    }, [stats])
+
+    return (
+        <div>
+            <div id="chart">
+                <ReactApexChart options={state.options} series={state.series} type="radar" height={350} />
             </div>
-        );
-    }
+            <div id="html-dist"></div>
+        </div>
+    );
 }
 
 function Hero(props) {
@@ -89,25 +113,8 @@ function Hero(props) {
 
                 {/* base stats */}
                 <div>
-                    <h2 className="text-xl font-bold mb-3">Base Stats</h2>
-                    <table className={props.isLoading ? "" : "bg-gray-200"}>
-                        <tbody>
-                            {
-                                props.isLoading ? <LoadingIcon /> :
-                                    props.data?.stats.map((stat, index) => {
-                                        return (
-                                            <tr className="border-b border-black/30" key={index}>
-                                                <td className="py-1 px-4">{stat.stat.name}</td>
-                                                <td className="py-1 px-4">: {stat.base_stat}</td>
-                                            </tr>
-                                        )
-                                    })
-                            }
-                        </tbody>
-                    </table>
-
-                    <StatsChart />
-
+                    {/* <h2 className="text-xl font-bold mb-3">Base Stats</h2> */}
+                    <StatChart stats={props.data?.stats} />
                 </div>
                 {/* end base stats */}
 
