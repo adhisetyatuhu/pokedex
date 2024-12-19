@@ -1,3 +1,25 @@
 {
-    "pokemons": []
+  "pokemons": [],
+  "favorites": [
+    {
+      "id": "061c",
+      "name": "charmander",
+      "url": "https://pokeapi.co/api/v2/pokemon/charmander"
+    },
+    {
+      "id": "24ad",
+      "name": "ivysaur",
+      "url": "https://pokeapi.co/api/v2/pokemon/ivysaur"
+    },
+    {
+      "id": "a35b",
+      "name": "ivysaur",
+      "url": "https://pokeapi.co/api/v2/pokemon/ivysaur"
+    },
+    {
+      "id": "4a0f",
+      "name": "charmeleon",
+      "url": "https://pokeapi.co/api/v2/pokemon/charmeleon"
+    }
+  ]
 }

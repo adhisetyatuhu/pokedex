@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
-import PokeCard, { LoadingPokeCard } from './components/PokeCard.jsx'
+import { LoadingPokeCard } from './components/PokeCard.jsx'
 import Pagination from './components/Pagination.jsx'
+import PokemonList from './components/PokemonList.jsx'
 
 function App() {
   const baseUrl = 'https://pokeapi.co/api/v2/';
@@ -37,15 +38,7 @@ function App() {
 
   return (
     <>
-      <div className='grid grid-cols-1 sm:mx-12 md:mx-0 md:grid-cols-2 lg:grid-cols-3 gap-2'>
-        {
-          isLoading ? loadingCards :
-            pokeList.results?.map((pokemon, index) => {
-              return <PokeCard key={index} data={pokemon} />
-            })
-
-        }
-      </div>
+      <PokemonList pokeList={pokeList} isLoading={isLoading} loadingCards={loadingCards} />
       <Pagination pokeList={pokeList} setCurrentUrl={setCurrentUrl} />
     </>
   )
