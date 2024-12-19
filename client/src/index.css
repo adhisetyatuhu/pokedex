@@ -5,3 +5,14 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+polygon {
+  stroke: #eee;
+  stroke-width: 1.5;
+  fill: rgba(255,255,255,0.2);
+}
+
+.apexcharts-radar-series line {
+  stroke: #eee;
+  stroke-width: 1.5;
+}
