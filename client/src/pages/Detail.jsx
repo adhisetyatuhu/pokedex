@@ -5,6 +5,8 @@ import ReactHowler from "react-howler";
 import { LoadingIcon } from "../components/PokeCard";
 import Chart from 'react-apexcharts';
 import ReactApexChart from "react-apexcharts";
+import { elements } from "../utils/colors";
+import Swal from 'sweetalert2'
 
 const StatChart = (props) => {
     const [stats, setStats] = useState(null);
@@ -73,6 +75,24 @@ function Hero(props) {
     const [sound, setSound] = useState(null);
     const [isHowling, setIsHowling] = useState(false);
 
+    const getColor = (type) => elements[type] || elements["undefined"];
+
+    const addToFavorite = async (pokeData) => {
+        try {
+            await axios.post('http://localhost:3000/favorites', {
+                name: pokeData.name,
+                url: `https://pokeapi.co/api/v2/pokemon/${pokeData.name}`,
+            })
+            Swal.fire({
+                title: "Success!",
+                text: "You caught the Pokémon!",
+                icon: "success"
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         setSound(props.data?.cries.latest);
     }, []);
@@ -83,42 +103,47 @@ function Hero(props) {
 
     return (
         <>
-            <div className="flex justify-between items-center bg-gray-300 px-12">
-                <div className="p-6">
-                    <h2 className="text-3xl font-bold capitalize mb-2">{props.data?.name}</h2>
+            <div className={` bg-gray-300 px-12 ${props?.data?.types ? getColor(props.data?.types[0].type.name) : 'bg-gray-200/70'}`}>
+                <button className="ml-auto bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-2 px-4 rounded float-right my-5" onClick={() => addToFavorite(props?.data)}>
+                    Catch!
+                </button>
+                <div className="flex justify-between items-center">
+                    <div className="p-6">
+                        <h2 className="text-3xl font-bold capitalize mb-2">{props.data?.name}</h2>
 
-                    {/* types */}
-                    <div className="flex gap-2">{props.data?.types.map((type, index) => {
-                        return (<span key={index} className="border border-black rounded-3xl px-4">{type.type.name}</span>)
-                    })}</div>
-                    {/* end types */}
+                        {/* types */}
+                        <div className="flex gap-2">{props.data?.types.map((type, index) => {
+                            return (<span key={index} className="border border-black rounded-3xl px-4">{type.type.name}</span>)
+                        })}</div>
+                        {/* end types */}
 
-                    <div className="flex justify-between mt-2">
-                        <span>Weight: {props.data?.weight}</span>
-                        <span>Height: {props.data?.height}</span>
+                        <div className="flex justify-between mt-2">
+                            <span>Weight: {props.data?.weight}</span>
+                            <span>Height: {props.data?.height}</span>
+                        </div>
                     </div>
+
+                    <figure className="h-96  flex items-center">
+                        {
+                            props.isLoading ?
+                                <LoadingIcon />
+                                :
+                                <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
+                        }
+                        {
+                            isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.05} />
+                        }
+                    </figure>
+
+                    {/* base stats */}
+                    <div>
+                        {/* <h2 className="text-xl font-bold mb-3">Base Stats</h2> */}
+                        <StatChart stats={props.data?.stats} />
+                    </div>
+                    {/* end base stats */}
                 </div>
-
-                <figure className="h-96 bg-gray-300 flex items-center">
-                    {
-                        props.isLoading ?
-                            <LoadingIcon />
-                            :
-                            <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
-                    }
-                    {
-                        isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.05} />
-                    }
-                </figure>
-
-                {/* base stats */}
-                <div>
-                    {/* <h2 className="text-xl font-bold mb-3">Base Stats</h2> */}
-                    <StatChart stats={props.data?.stats} />
-                </div>
-                {/* end base stats */}
-
             </div>
+
         </>
     );
 }

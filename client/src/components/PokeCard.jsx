@@ -31,7 +31,7 @@ function PokeCard(props) {
         try {
             const { data } = await axios.get(props.data?.url);
             setPokeData(data);
-            setPokeImg(data.sprites.other["official-artwork"].front_default);
+            setPokeImg(data.sprites?.other["official-artwork"].front_default);
         } catch (error) {
             console.log(error);
         } finally {
@@ -52,7 +52,7 @@ function PokeCard(props) {
     return (
         <>
             <div onClick={() => navigate('/pokemon/' + pokeData?.id)} className={`px-4 h-36 border rounded-md flex justify-between items-center hover:cursor-pointer ${pokeData?.types ? getColor(pokeData.types[0].type.name) : 'bg-gray-200/70'}`}>
-                <figure >
+                <figure>
                     {
                         isLoading ?
                             <div className="flex justify-center items-center h-28 w-24"><LoadingIcon /></div>
@@ -62,7 +62,7 @@ function PokeCard(props) {
                 </figure>
                 <figcaption className="text-right">
                     <h2 className={"font-bold text-xl capitalize"}>{props.data?.name}</h2>
-                    <p className="italic">{pokeData?.types.map((type, index) => {
+                    <p className="italic">{pokeData?.types?.map((type, index) => {
                         return (index > 0 ? `, ${type.type.name}` : type.type.name)
                     })}</p>
                 </figcaption>

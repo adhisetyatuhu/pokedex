@@ -16,7 +16,8 @@
     "react-apexcharts": "^1.7.0",
     "react-dom": "^18.3.1",
     "react-howler": "^5.2.0",
-    "react-router": "^7.0.2"
+    "react-router": "^7.0.2",
+    "sweetalert2": "^11.15.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
