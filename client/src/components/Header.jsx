@@ -8,7 +8,7 @@ function Header() {
 
     return (
         <>
-            <nav className="flex items-center justify-between my-4">
+            <nav className="flex items-center justify-between p-4 flex-wrap">
                 <h1 onClick={() => navigate('/')} className="text-xl font-bold hover:cursor-pointer">
                     <img src="https://d33wubrfki0l68.cloudfront.net/547a9970a7d43be64cdf108f330a8dd372d72c90/45801/images/pokemon_logo.png" width={150} alt="" />
                 </h1>
@@ -19,8 +19,8 @@ function Header() {
                     </button>
                 </form>
                 <div className="flex gap-4">
-                    <span onClick={() => navigate('/')} className={`px-4 py-2 rounded-md ${location.pathname === '/' ? 'bg-blue-500' : 'bg-blue-400'} text-white hover:cursor-pointer hover:bg-blue-300 font-semibold`}>Home</span>
-                    <span onClick={() => navigate('/favorites')} className={`px-4 py-2 rounded-md ${location.pathname === '/favorites' ? 'bg-blue-500' : 'bg-blue-400'} text-white hover:cursor-pointer hover:bg-blue-300 font-semibold`}>Favorites</span>
+                    <span onClick={() => navigate('/')} className={`px-4 py-2 ${location.pathname === '/' ? 'text-blue-600 border-b-2 border-blue-300' : 'text-gray-500'} hover:cursor-pointer hover:bg-gray-100 font-semibold`}>Home</span>
+                    <span onClick={() => navigate('/favorites')} className={`px-4 py-2 ${location.pathname === '/favorites' ? 'text-blue-600 border-b-2 border-blue-300' : 'text-gray-500'} hover:cursor-pointer hover:bg-gray-100 font-semibold`}>Favorites</span>
                 </div>
             </nav>
         </>
