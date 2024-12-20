@@ -17,11 +17,11 @@ const StatChart = (props) => {
         }],
         options: {
             chart: {
-                height: 300,
                 type: 'radar',
                 toolbar: {
                     show: false
                 },
+                resizable: true
             },
             title: {
                 text: ''
@@ -71,7 +71,12 @@ const StatChart = (props) => {
     return (
         <div>
             <div id="chart" className="bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-black/15 from-0% to-black/0 to-70%">
-                <ReactApexChart options={state.options} series={state.series} type="radar" height={350} width={380} />
+                <div className="hidden lg:block">
+                    <ReactApexChart options={state.options} series={state.series} type="radar" height={550} width={580} />
+                </div>
+                <div className="block lg:hidden">
+                    <ReactApexChart options={state.options} series={state.series} type="radar" height={350} width={380} />
+                </div>
             </div>
             <div id="html-dist"></div>
         </div>
@@ -111,36 +116,43 @@ function Hero(props) {
     return (
         <>
             <div className={` bg-gray-300 px-12 ${props?.data?.types ? getColor(props.data?.types[0].type.name) : 'bg-gray-200/70'}`}>
-                <button className="ml-auto bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-2 px-4 rounded float-right my-5" onClick={() => addToFavorite(props?.data)}>
-                    Catch!
-                </button>
-                <div className="flex justify-between items-center">
-                    <div className="p-6">
-                        <h2 className="text-3xl font-bold capitalize mb-2">{props.data?.name}</h2>
+                <div className="flex justify-center md:justify-between items-center flex-wrap">
+                    <div className="my-4">
+                        <div className="flex flex-col items-center">
+                            <h2 className="text-3xl font-bold capitalize mb-2">{props.data?.name}</h2>
 
-                        {/* types */}
-                        <div className="flex gap-2">{props.data?.types.map((type, index) => {
-                            return (<span key={index} className="border border-black rounded-3xl px-4">{type.type.name}</span>)
-                        })}</div>
-                        {/* end types */}
+                            {/* types */}
+                            <div className="flex gap-2 items-center italic">{props.data?.types.map((type, index) => {
+                                return (index === 0 ? <span key={index}>{type.type.name}</span> : <><span>-</span><span key={index}>{type.type.name}</span></>)
+                            })}</div>
+                            {/* end types */}
+
+                        </div>
+
+                        <figure className="">
+                            {
+                                props.isLoading ?
+                                    <LoadingIcon />
+                                    :
+                                    <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-60 md:h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
+                            }
+                            {
+                                isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.05} />
+                            }
+                        </figure>
 
                         <div className="flex justify-between mt-2">
                             <span>Weight: {props.data?.weight / 10} kg</span>
                             <span>Height: {props.data?.height / 10} m</span>
                         </div>
+
+                        <div className="flex justify-center mt-2">
+                            <button className=" bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-2 px-4 rounded mt-3" onClick={() => addToFavorite(props?.data)}>
+                                Catch!
+                            </button>
+                        </div>
                     </div>
 
-                    <figure className="h-96  flex items-center">
-                        {
-                            props.isLoading ?
-                                <LoadingIcon />
-                                :
-                                <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
-                        }
-                        {
-                            isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.05} />
-                        }
-                    </figure>
 
                     {/* base stats */}
                     <div>
@@ -153,6 +165,58 @@ function Hero(props) {
 
         </>
     );
+}
+
+function Ability(props) {
+    const [abilityData, setAbilityData] = useState();
+
+    const fetchAbilityData = async () => {
+        try {
+            const { data } = await axios.get(props.data.ability?.url);
+            setAbilityData(data);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchAbilityData();
+    }, []);
+
+    return (
+        <>
+            <li>
+                <div className="capitalize font-semibold">
+                    {props.data?.ability?.name}
+                </div>
+                <div>
+                    {abilityData?.effect_entries?.map((effect, index) => {
+                        return <div key={index}>{effect.language.name === "en" ? effect.effect : ""}</div>
+                    })}
+                </div>
+            </li>
+        </>
+    )
+}
+
+function AbilityCard(props) {
+
+    return (
+        <>
+            <div className="border rounded-md px-4 bg-slate-50">
+                <div className="py-1 font-semibold text-xl">Abilities</div>
+                <hr />
+                <ul className="list-disc px-4 py-2">
+                    {
+                        props.data?.abilities.map((ability, index) => {
+                            return <Ability key={index} data={ability} />
+                        })
+                    }
+                </ul>
+            </div>
+        </>
+    )
 }
 
 function Detail(props) {
@@ -179,6 +243,9 @@ function Detail(props) {
     return (
         <>
             <Hero data={pokeData} isLoading={isLoading} setIsLoading={setIsLoading} />
+            <div className="m-4"></div>
+
+            <AbilityCard data={pokeData} />
         </>
     );
 }
