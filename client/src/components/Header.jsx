@@ -8,7 +8,7 @@ function Header() {
 
     return (
         <>
-            <nav className="flex items-center justify-between p-4 flex-wrap">
+            <nav className="flex items-center gap-4 justify-center md:justify-between p-4 flex-wrap">
                 <h1 onClick={() => navigate('/')} className="text-xl font-bold hover:cursor-pointer">
                     <img src="https://d33wubrfki0l68.cloudfront.net/547a9970a7d43be64cdf108f330a8dd372d72c90/45801/images/pokemon_logo.png" width={150} alt="" />
                 </h1>
