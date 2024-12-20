@@ -129,7 +129,7 @@ function Hero(props) {
 
                         </div>
 
-                        <figure className="">
+                        <figure className="flex justify-center">
                             {
                                 props.isLoading ?
                                     <LoadingIcon />

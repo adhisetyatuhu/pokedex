@@ -8,7 +8,7 @@ import PokemonList from './components/PokemonList.jsx'
 function App() {
   const baseUrl = 'https://pokeapi.co/api/v2/';
   const [pokeList, setPokeList] = useState([]);
-  const [currentUrl, setCurrentUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=15&offset=0");
+  const [currentUrl, setCurrentUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=16&offset=0");
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPage = async () => {
@@ -32,7 +32,7 @@ function App() {
   }, [currentUrl])
 
   const loadingCards = []
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 16; i++) {
     loadingCards.push(<LoadingPokeCard key={i} />);
   }
 
