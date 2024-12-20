@@ -7,19 +7,14 @@
       "url": "https://pokeapi.co/api/v2/pokemon/charmander"
     },
     {
-      "id": "24ad",
-      "name": "ivysaur",
-      "url": "https://pokeapi.co/api/v2/pokemon/ivysaur"
-    },
-    {
-      "id": "a35b",
-      "name": "ivysaur",
-      "url": "https://pokeapi.co/api/v2/pokemon/ivysaur"
-    },
-    {
-      "id": "4a0f",
+      "id": "a13b",
       "name": "charmeleon",
       "url": "https://pokeapi.co/api/v2/pokemon/charmeleon"
+    },
+    {
+      "id": "63cd",
+      "name": "charizard-mega-x",
+      "url": "https://pokeapi.co/api/v2/pokemon/charizard-mega-x"
     }
   ]
 }

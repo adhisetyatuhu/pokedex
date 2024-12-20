@@ -6,6 +6,8 @@ import { LoadingIcon } from "../components/PokeCard";
 import ReactApexChart from "react-apexcharts";
 import { elements } from "../utils/colors";
 import Swal from 'sweetalert2'
+import openSound from '../assets/sound/open.wav'
+import removeSound from '../assets/sound/remove.wav'
 
 const StatChart = (props) => {
     const [stats, setStats] = useState(null);
@@ -86,11 +88,13 @@ const StatChart = (props) => {
 function Hero(props) {
     const [sound, setSound] = useState(null);
     const [isHowling, setIsHowling] = useState(false);
+    const [favoritePokemon, setFavoritePokemon] = useState(null);
 
     const getColor = (type) => elements[type] || elements["undefined"];
 
     const addToFavorite = async (pokeData) => {
         try {
+            playOpenSound()
             await axios.post('http://localhost:3000/favorites', {
                 name: pokeData.name,
                 url: `https://pokeapi.co/api/v2/pokemon/${pokeData.name}`,
@@ -105,8 +109,61 @@ function Hero(props) {
         }
     }
 
+    const fetchFavoritePokemon = async () => {
+        try {
+            const { data } = await axios.get('http://localhost:3000/favorites');
+            setFavoritePokemon(data);
+            fetchFavoritePokemon();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const removeFromFavorite = async (id) => {
+        try {
+            playRemoveSound()
+            await axios.delete('http://localhost:3000/favorites/' + id)
+            fetchFavoritePokemon();
+            Swal.fire({
+                title: "Success!",
+                text: "You released the Pokémon!",
+                icon: "success"
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const showButtonCatch = () => {
+        const findPokemon = favoritePokemon?.find(pokemon => pokemon.name === props.data?.name);
+        if (findPokemon) {
+            return (
+                <button className=" bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-2 px-4 rounded mt-3" onClick={() => removeFromFavorite(findPokemon.id)}>
+                    Release Pokemon!
+                </button>
+            )
+        } else {
+            return (
+                <button className=" bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-2 px-4 rounded mt-3" onClick={() => addToFavorite(props?.data)}>
+                    Catch Pokemon!
+                </button>
+            )
+        }
+    }
+
+    const playOpenSound = () => {
+        let audio = new Audio(openSound);
+        audio.play();
+    }
+
+    const playRemoveSound = () => {
+        let audio = new Audio(removeSound);
+        audio.play();
+    }
+
     useEffect(() => {
         setSound(props.data?.cries.latest);
+        fetchFavoritePokemon();
     }, []);
 
     useEffect(() => {
@@ -147,9 +204,7 @@ function Hero(props) {
                         </div>
 
                         <div className="flex justify-center mt-2">
-                            <button className=" bg-zinc-100 hover:bg-zinc-200 text-black font-bold py-2 px-4 rounded mt-3" onClick={() => addToFavorite(props?.data)}>
-                                Catch!
-                            </button>
+                            {showButtonCatch()}
                         </div>
                     </div>
 

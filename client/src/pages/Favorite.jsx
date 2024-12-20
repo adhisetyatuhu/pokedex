@@ -12,7 +12,6 @@ function Favorite() {
     try {
       const { data: favoriteData } = await axios.get('http://localhost:3000/favorites');
       setPokeList(favoriteData);
-      console.log(pokemonDetails);
     } catch (error) {
       console.error(error);
     } finally {

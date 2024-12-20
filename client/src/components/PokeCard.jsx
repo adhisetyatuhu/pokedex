@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { elements } from "../utils/colors";
+import useNavigation from "../hooks/useNavigation";
 
 function LoadingIcon() {
     return (
@@ -21,6 +22,8 @@ function LoadingPokeCard() {
 }
 
 function PokeCard(props) {
+    const { navigateTo } = useNavigation();
+
     const [pokeData, setPokeData] = useState(null);
     const [pokeImg, setPokeImg] = useState(null);
     const navigate = useNavigate();
@@ -51,7 +54,7 @@ function PokeCard(props) {
 
     return (
         <>
-            <div onClick={() => navigate('/pokemon/' + pokeData?.id)} className={`px-4 h-36 border rounded-md flex justify-between items-center hover:cursor-pointer ${pokeData?.types ? getColor(pokeData.types[0].type.name) : 'bg-gray-200/70'}`}>
+            <div onClick={() => navigateTo('/pokemon/' + pokeData?.id)} className={`px-4 h-36 border rounded-md flex justify-between items-center hover:cursor-pointer ${pokeData?.types ? getColor(pokeData.types[0].type.name) : 'bg-gray-200/70'}`}>
                 <figure>
                     {
                         isLoading ?
