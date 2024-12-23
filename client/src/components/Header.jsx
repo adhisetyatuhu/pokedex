@@ -4,8 +4,6 @@ import useNavigation from '../hooks/useNavigation'
 
 function Header() {
     const { navigateTo } = useNavigation();
-
-    const navigate = useNavigate();
     const [searchKeyword, setSearchKeyword] = useState();
 
 

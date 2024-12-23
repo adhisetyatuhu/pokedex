@@ -24,7 +24,7 @@ function Search() {
 
     const filterData = () => {
         const filtered = pokeList?.filter(poke => {
-            return poke.name.indexOf(keyword) == 0
+            return poke.name.indexOf(keyword.toLowerCase()) == 0
         })
         setResult(filtered);
     }
