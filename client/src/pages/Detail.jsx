@@ -195,7 +195,7 @@ function Hero(props) {
                                     <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-60 md:h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
                             }
                             {
-                                isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.05} />
+                                isHowling && <ReactHowler src={sound} playing={isHowling} volume={0.2} />
                             }
                         </figure>
 
