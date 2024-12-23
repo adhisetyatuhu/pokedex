@@ -8,6 +8,7 @@ import { elements } from "../utils/colors";
 import Swal from 'sweetalert2'
 import openSound from '../assets/sound/open.wav'
 import removeSound from '../assets/sound/remove.wav'
+import server from "../utils/axios";
 
 const StatChart = (props) => {
     const [stats, setStats] = useState(null);
@@ -95,7 +96,7 @@ function Hero(props) {
     const addToFavorite = async (pokeData) => {
         try {
             playOpenSound()
-            await axios.post('http://localhost:3000/favorites', {
+            await server.post('/favorites', {
                 name: pokeData.name,
                 url: `https://pokeapi.co/api/v2/pokemon/${pokeData.name}`,
             })
@@ -111,7 +112,7 @@ function Hero(props) {
 
     const fetchFavoritePokemon = async () => {
         try {
-            const { data } = await axios.get('http://localhost:3000/favorites');
+            const { data } = await server.get('/favorites');
             setFavoritePokemon(data);
             fetchFavoritePokemon();
         } catch (error) {
@@ -122,7 +123,7 @@ function Hero(props) {
     const removeFromFavorite = async (id) => {
         try {
             playRemoveSound()
-            await axios.delete('http://localhost:3000/favorites/' + id)
+            await server.delete('/favorites/' + id)
             fetchFavoritePokemon();
             Swal.fire({
                 title: "Success!",

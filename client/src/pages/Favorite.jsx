@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import PokemonList from '../components/PokemonList.jsx'
 import { LoadingPokeCard } from '../components/PokeCard.jsx'
+import server from '../utils/axios.js'
 
 function Favorite() {
   const [pokeList, setPokeList] = useState([]);
@@ -10,7 +11,7 @@ function Favorite() {
   const fetchPage = async () => {
     setIsLoading(true);
     try {
-      const { data: favoriteData } = await axios.get('http://localhost:3000/favorites');
+      const { data: favoriteData } = await server.get('/favorites');
       setPokeList(favoriteData);
     } catch (error) {
       console.error(error);
