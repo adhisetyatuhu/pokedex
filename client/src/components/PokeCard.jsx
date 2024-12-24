@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import { elements } from "../utils/colors";
 import useNavigation from "../hooks/useNavigation";
 
@@ -26,7 +25,6 @@ function PokeCard(props) {
 
     const [pokeData, setPokeData] = useState(null);
     const [pokeImg, setPokeImg] = useState(null);
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchData = async () => {

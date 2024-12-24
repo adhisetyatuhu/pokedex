@@ -14,6 +14,7 @@ createRoot(document.getElementById('root')).render(
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<App />} />
+          <Route path='/list/:page' element={<App />} />
           <Route path='/pokemon/:id' element={<Detail />} />
           <Route path='/search/:keyword' element={<Search />} />
           <Route path='/favorites' element={<Favorite />} />

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import PokeCard from "../components/PokeCard";
 import { LoadingPokeCard } from "../components/PokeCard";
+import { pokeapi } from "../utils/axios";
 
 function Search() {
     const [pokeList, setPokeList] = useState([]);
@@ -13,7 +14,7 @@ function Search() {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const { data } = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0');
+            const { data } = await pokeapi.get('/pokemon?limit=100000&offset=0');
             setPokeList(data.results);
         } catch (error) {
             console.log(error);

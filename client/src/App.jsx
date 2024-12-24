@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import axios from 'axios'
 import { LoadingPokeCard } from './components/PokeCard.jsx'
 import Pagination from './components/Pagination.jsx'
 import PokemonList from './components/PokemonList.jsx'
+import { pokeapi } from './utils/axios.js'
+import { useParams } from 'react-router'
 
 function App() {
-  const baseUrl = 'https://pokeapi.co/api/v2/';
   const [pokeList, setPokeList] = useState([]);
-  const [currentUrl, setCurrentUrl] = useState("https://pokeapi.co/api/v2/pokemon?limit=16&offset=0");
+  const { page } = useParams();
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPage = async () => {
+    const limit = 16;
     try {
       setIsLoading(true);
-      const { data } = await axios.get(currentUrl);
+      const { data } = await pokeapi.get(`/pokemon?limit=${limit}&offset=${page * limit}`);
       setPokeList(data);
     } catch (error) {
       console.log(error);
@@ -29,7 +30,7 @@ function App() {
 
   useEffect(() => {
     fetchPage();
-  }, [currentUrl])
+  }, [page])
 
   const loadingCards = []
   for (let i = 0; i < 16; i++) {
@@ -39,7 +40,7 @@ function App() {
   return (
     <>
       <PokemonList pokeList={pokeList} isLoading={isLoading} loadingCards={loadingCards} />
-      <Pagination pokeList={pokeList} setCurrentUrl={setCurrentUrl} />
+      <Pagination pokeList={pokeList} page={page} />
     </>
   )
 }
