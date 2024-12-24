@@ -190,7 +190,10 @@ function Hero(props) {
                         <figure className="flex justify-center">
                             {
                                 props.isLoading ?
-                                    <LoadingIcon />
+                                    <div className="lg:w-48 flex justify-center">
+
+                                        <LoadingIcon />
+                                    </div>
                                     :
                                     <img onMouseEnter={() => setIsHowling(true)} onMouseLeave={() => setIsHowling(false)} className="h-60 md:h-80 hover:animate-pulse hover:cursor-pointer" src={props.data?.sprites.other["official-artwork"].front_default} />
                             }
@@ -199,21 +202,28 @@ function Hero(props) {
                             }
                         </figure>
 
-                        <div className="flex justify-between mt-2">
-                            <span>Weight: {props.data?.weight / 10} kg</span>
-                            <span>Height: {props.data?.height / 10} m</span>
-                        </div>
+                        {
+                            props.isLoading ? <div></div> :
+                                <>
+                                    <div className="flex justify-between mt-2">
+                                        <span>Weight: {props.data?.weight / 10} kg</span>
+                                        <span>Height: {props.data?.height / 10} m</span>
+                                    </div>
 
-                        <div className="flex justify-center mt-2">
-                            {showButtonCatch()}
-                        </div>
+                                    <div className="flex justify-center mt-2">
+                                        {showButtonCatch()}
+                                    </div>
+
+                                </>
+                        }
                     </div>
 
 
                     {/* base stats */}
                     <div>
-                        {/* <h2 className="text-xl font-bold mb-3">Base Stats</h2> */}
-                        <StatChart stats={props.data?.stats} />
+                        {
+                            props.isLoading ? <div className="h-[350px] w-[380px] lg:h-[550px] lg:w-[580px] flex justify-center items-center"><LoadingIcon /></div> : <StatChart stats={props.data?.stats} />
+                        }
                     </div>
                     {/* end base stats */}
                 </div>
